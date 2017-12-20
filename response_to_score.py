@@ -18,6 +18,7 @@ class TestResponse:
         responses = pd.read_excel(excel_file, sheet_num)
         self.responses = responses.fillna(' ')
         self.has_response = True
+        return self.responses
     
     def get_key_info(self, excel_file, sheet_num = 1):
         '''答案信息'''
@@ -33,6 +34,7 @@ class TestResponse:
         
         self.all_items = list(self.key_info.keys())
         self.has_key = True
+        return self.key_info
     
     def get_score_df(self, basic_info_num = 2):
         if not self.has_key:
@@ -80,6 +82,7 @@ class TestResponse:
         Y = list(df_score.columns)[:basic_info_num] +  [item + '_S' for item in all_items] + ['Total_score']
         
         self.score_df = df_score[Y]
+        return self.score_df
         
     def check_response_input(self):
         '''检查在录入作答时是否有误'''
