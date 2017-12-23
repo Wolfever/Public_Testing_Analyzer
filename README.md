@@ -7,10 +7,20 @@ Provides tools (Python) to facilitate testing analysis process. Include score co
 
 
 ```
-# 引入文件
+#  import main Class
+from test_response import TestResponse
+
+# put all the students response into an excel, using formats given in template.xlsx
+
+# 导入答案文件，格式参见Template.xlsx的答案Sheet
+ef =  'template.xlsx'
+
+resp = TestResponse()
+resp.set_response(ef, 0)
+resp.set_key_info(ef, 1)
 from response_to_score import TestResponse as tr
 resp = tr()
-# 导入答案文件，格式参见Template.xlsx的答案Sheet
+
 resp.get_key_info('Template.xlsx', sheet_num = 1)
 # 导入学生作答文件，格式参见Template.xlsx的作答sheet
 resp.get_response('Template.xlsx', sheet_num = 0)
