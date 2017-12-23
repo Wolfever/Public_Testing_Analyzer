@@ -74,7 +74,7 @@ def get_score_df(responses, all_items,  key_info, scoring_scheme, basic_info_num
     
     return df_score
 
-def check_response_input(responses, all_items, key_info):
+def check_response_input(df, all_items, key_info):
     '''检查录入的答案是否合理。'''
     def print_error(row, k, error_message, info_num = 2):
         '''
@@ -85,11 +85,11 @@ def check_response_input(responses, all_items, key_info):
         print('有问题的地方是{},录入的结果是{}, 问题是{}'.format(k, row[k], error_message))
         print()
 
-    
+    has_error = False
     for ii, row in df.iterrows():
         for k in all_items:
             # 1. 如果是单选和判断正误
-            if tkw[k][0] in ['MCQ', 'TFN']:
+            if key_info[k][0] in ['MCQ', 'TFN']:
                 current_response = str(row[k])
                 current_response = current_response.upper()
                 if ' ' in current_response:
@@ -97,12 +97,17 @@ def check_response_input(responses, all_items, key_info):
 
                 if len(current_response) != 1  or row[k] == ' ':
                     print_error(row, k, '没有录入或录入长度无效')
-                elif not current_response in tkw[k][3] :
+                    has_error = True
+                elif not current_response in key_info[k][4] :
                     print_error(row, k, '录入结果不在可接受范围中')
+                    has_error = True
                 else:
                     pass
             else:
-                if row[k] > tkw[k][2]:
+                if row[k] > key_info[k][2]:
                     print_error(row, k, '录入成绩大于该题满分')
+                    has_error = True
                 else:
                     pass
+    if not has_error:
+    	print('没有发现问题！')
